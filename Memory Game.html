@@ -1,0 +1,69 @@
+<!-- This is a very simple memory game that i made which uses the basics of HTML and Javascript -->
+<html>
+<head> 
+  <title>Memory game</title> 
+  <script type="text/javascript"> 
+  function NumGen() //Generates a random number
+  {
+    var min=100000; 
+    var max=999999;  
+    var randomno = Math.floor(Math.random() * (+max - +min)) + +min; 
+    document.getElementById("display").innerText+=("Random Number Generated : " + randomno );  //inserts into div tag with respective id
+    document.getElementById("redtxt").innerText+=("Page redirect in 5 seconds . . . . . " );  
+    randomno = randomno.toString();                             //convert to String so we can check digits individually
+    localStorage.setItem("randno", randomno); //HTML5 Web Storage
+   
+
+        setTimeout(function()
+         {
+            GuessPage();  //Calls function after a 5 second delay
+         }, 5000);
+  }
+  function NumChk() //checks the number generated and number guessed
+  {
+      var count = 0;
+     var compnum =localStorage.getItem("randno");
+   var num = document.getElementById("guess");
+    if(num.value=="")
+    {
+        alert("Enter a Number")
+    }
+    else
+    {
+        sNum = num.value.toString();    //convert to String so we can check digits individually
+   
+
+for (var i = 0, len = sNum.length; i < len; i += 1) {  //loop with the total length of guess
+    if(sNum[i]==compnum[i])                             //compare digit by digit
+    {
+        count = count + 1;
+    }
+   
+}
+
+document.getElementById("disdiv").innerText+=(count + " Numbers remembered " ); //displays within the tag with the given id
+    }
+  }
+  function GuessPage()  //using inner HTML to rewrite the contents of body , quotation marks need a backslash (esacpe sequence)
+  { 
+    document.getElementById("bId").innerHTML = "<h1>Guess the number</h1><br><input type=\"number\" id=\"guess\" placeholder=\"Input your number here\"><br><br> <button id=\"\" onclick=\"NumChk()\">Guess</button> <button id=\"Reset\" onclick=\"replayGame()\">Replay Game</button> <br><br><div id=\"disdiv\"></div>"
+    
+  }
+  function replayGame() //using inner html to rewrite the body
+  {
+    document.getElementById("bId").innerHTML = "<h1>Generate the Number</h1><br><div id=\"display\"></div><br><br><button id=\"Generator\" onclick=\"NumGen()\">Generate</button><br><br><div id=\"redtxt\"></div>"
+  }
+</script>      
+</head>    
+<body id="bId">
+<h1>Generate the Number</h1>
+<br>
+<div id="display"></div>
+<br><br>
+<button id="Generator" onclick="NumGen()">Generate</button>
+<br><br>
+<div id="redtxt"></div>
+
+
+</body>
+</html>
